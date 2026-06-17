@@ -1,0 +1,15 @@
+# .gitignore
+
+# Simulation and Synthesis Logs
+*.log
+
+# Waveform Files
+*.vcd
+*.wlf
+*.fsdb
+
+# Icarus Verilog compiled files
+*.vvp
+
+# Simulator specific directories
+sim/
