@@ -33,7 +33,7 @@ end
 
 assign winc = w_en && !w_full;
 assign wbin_nxt = wbin + winc;
-assign w_full_nxt = (wq2_rptr[a_size-2:0] == wgray_nxt[a_size-1:0]) && (wq2_rptr[a_size] != wgray_nxt[a_size]);
+assign w_full_nxt = (wq2_rptr[a_size-2:0] == wgray_nxt[a_size-2:0]) && (~wq2_rptr[a_size:a_size-1] == wgray_nxt[a_size:a_size-1]);
 assign wgray_nxt = (wbin_nxt >> 1) ^ wbin_nxt;
 assign w_addr = wbin[a_size-1:0];
 
