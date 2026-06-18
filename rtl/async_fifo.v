@@ -1,4 +1,4 @@
-module top #(
+module async_fifo #(
     parameter a_size = 4,
     parameter d_size = 8
 )(
@@ -17,7 +17,10 @@ module top #(
 wire [a_size-1:0] r_addr;
 wire [a_size-1:0] w_addr;
 
-fifo_mem memo (
+fifo_mem #(
+    .a_size(a_size),
+    .d_size(d_size)
+)memo(
     .r_clk(r_clk),
     .w_clk(w_clk),
     .w_en(w_en),
@@ -31,7 +34,9 @@ fifo_mem memo (
 wire [a_size:0] wq2_rptr;
 wire [a_size:0] wptr;
 
-wptr_full wptr_full (
+wptr_full #(
+    .a_size(a_size)
+)wptr_full (
     .w_clk(w_clk),
     .w_en(w_en),
     .wrst_n(wrst_n),
@@ -44,7 +49,9 @@ wptr_full wptr_full (
 wire [a_size:0] rq2_wptr;
 wire [a_size:0] rptr;
 
-rptr_empty rptr_empty (
+rptr_empty #(
+    .a_size(a_size)
+)rptr_empty (
     .r_clk(r_clk),
     .r_en(r_en),
     .rrst_n(rrst_n),
@@ -54,16 +61,20 @@ rptr_empty rptr_empty (
     .rptr(rptr)
 );
 
-sync_r2w sync_r2w (
+sync_r2w #(
+    .a_size(a_size)
+)sync_r2w (
     .w_clk(w_clk),
-    .w_en(w_en).
+    .wrst_n(wrst_n),
     .rptr(rptr),
     .wq2_rptr(wq2_rptr)
 );
 
-sync_w2r sync_w2r (
+sync_w2r #(
+    .a_size(a_size)
+)sync_w2r (
     .r_clk(r_clk),
-    .r_en(r_en),
+    .rrst_n(rrst_n),
     .wptr(wptr),
     .rq2_wptr(rq2_wptr)
 );
